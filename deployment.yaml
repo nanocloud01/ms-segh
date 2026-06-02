@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ms-seg
+spec:
+  replicas: 3 # Tienes varias instancias
+  selector:
+    matchLabels:
+      app: ms-seg
+  template:
+    metadata:
+      labels:
+        app: ms-seg
+    spec:
+      containers:
+        - name: app
+          image: hernancloud01/ms-seg:1.0
+          ports:
+            - containerPort: 1616
+          env:
+            # --- AQUÍ ESTÁ EL TRUCO ---
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            # --------------------------

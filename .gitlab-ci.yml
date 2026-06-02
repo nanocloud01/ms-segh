@@ -1,0 +1,54 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  # Namespace
+  NAMESPACE: "seg"  
+  # Cambia esto por la URL de tu Harbor (ej: harbor.apps.gob.bo)
+  REGISTRY_URL: "registry.sigep.gob.bo" 
+  # El proyecto en Harbor suele ser el nombre del sistema
+  REGISTRY_PROJECT: "sigep-v3"
+  
+include:
+  # Traemos la lógica desde el repo de configuración
+  - project: 'arquitectura/sigep-v3/conf-charts'
+    file: '/templates/helmfile-deploy.yaml'
+
+# 🐳 1. Build
+build_and_push:
+  stage: build
+  image: docker:24
+  tags:
+    - arq
+  script:
+    # Usamos las credenciales de Harbor (asegúrate que existan en GitLab Variables)
+    - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASSWORD" $REGISTRY_URL
+    # Construimos con el SHA del commit para tener trazabilidad total
+    - docker build -t $REGISTRY_URL/$REGISTRY_PROJECT/$CI_PROJECT_NAME:$CI_COMMIT_SHA .
+    - docker push $REGISTRY_URL/$REGISTRY_PROJECT/$CI_PROJECT_NAME:$CI_COMMIT_SHA
+    # También pusheamos el tag 'latest' para desarrollo si lo deseas
+    - docker tag $REGISTRY_URL/$REGISTRY_PROJECT/$CI_PROJECT_NAME:$CI_COMMIT_SHA $REGISTRY_URL/$REGISTRY_PROJECT/$CI_PROJECT_NAME:latest
+    - docker push $REGISTRY_URL/$REGISTRY_PROJECT/$CI_PROJECT_NAME:latest
+    
+# 🔄 2. Deploy (Usando tu nueva plantilla)
+update-manifest-dev:
+  stage: deploy
+  extends: .deploy_to_k8s
+  tags:
+    - arq
+  variables:
+    ENV_NAME: "dev"
+  only:
+    - dev
+    - main
+
+update-manifest-qa:
+  stage: deploy
+  extends: .deploy_to_k8s
+  tags:
+    - arq
+  variables:
+    ENV_NAME: "qa"
+  only:
+    - tags

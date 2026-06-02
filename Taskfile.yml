@@ -1,0 +1,25 @@
+version: '3'
+
+tasks:
+  image:
+    vars:
+      VERSION: "1.0"
+    cmds:
+      - echo "building image!"
+      - docker build -t ms-seg:{{.VERSION}} -f dockerfile_cp .
+      - echo "medio....."
+      - docker images
+      - docker tag ms-seg:{{.VERSION}} hernancloud01/ms-seg:{{.VERSION}}
+      - docker image rm ms-seg:{{.VERSION}}
+      - docker images
+      - docker push hernancloud01/ms-seg:{{.VERSION}}
+      - echo "FIN _________ GRACIAS"
+  deploy:
+    vars:
+      VERSION: "1.0"
+    cmds:
+      - echo "deploying app..."
+      - kubectl apply -f deployment.yaml
+      - kubectl apply -f service.yaml
+      - kubectl get pods -o wide
+      - echo "FIN _________ DEPLOYING"

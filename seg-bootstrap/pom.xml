@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>bo.gob.sigep.seg</groupId>
+        <artifactId>ms-seg</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <groupId>bo.gob.sigep.seg.bootstrap</groupId>
+    <artifactId>seg-bootstrap</artifactId>
+    <dependencies>
+        <!-- Jackson para Log4j2 JSON -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>bo.gob.sigep.seg.shared</groupId>
+            <artifactId>seg-shared</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>bo.gob.sigep.seg.perfiles</groupId>
+            <artifactId>seg-perfiles</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>bo.gob.sigep.seg.accesos</groupId>
+            <artifactId>seg-accesos</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>bo.gob.sigep.seg.usuarios</groupId>
+            <artifactId>seg-usuarios</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!-- OpenAPI/Swagger -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.8.3</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <finalName>app</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

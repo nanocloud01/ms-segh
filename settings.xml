@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <pluginGroups>
+  </pluginGroups>
+  
+  <proxies>
+    <proxy>
+      <id>optional</id>
+      <active>false</active>
+      <protocol>http</protocol>
+      <host>192.168.101.11</host>
+      <port>8080</port>
+      <nonProxyHosts>192.168.101.192</nonProxyHosts>
+    </proxy>
+  </proxies>
+ 
+<mirrors>
+  <mirror>
+    <id>sigep-mvn-mirror</id>
+    <mirrorOf>external:http:*</mirrorOf>
+    <url>http://192.168.101.192:8081/nexus/content/groups/sigep-mvn</url>
+    <blocked>false</blocked>
+  </mirror>
+</mirrors>
+  
+  <profiles>
+    <profile>
+      <id>sigep-mvn</id>
+      <repositories>
+        <repository>
+          <id>sigep-mvn</id>
+          <name>sigep-mvn</name>
+          <url>http://192.168.101.192:8081/nexus/content/groups/sigep-mvn</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>always</updatePolicy>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>always</updatePolicy>
+          </snapshots>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>sigep-mvn</id>
+          <name>sigep-mvn</name>
+          <url>http://192.168.101.192:8081/nexus/content/groups/sigep-mvn</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+            <updatePolicy>never</updatePolicy>
+          </snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+  </profiles>
+ 
+  <!-- activeProfiles
+   | List of profiles that are active for all builds.
+-->
+  <activeProfiles>
+    <activeProfile>sigep-mvn</activeProfile>
+  </activeProfiles>
+  <servers>
+    <server>
+      <id>sigep</id>
+      <username>sigep</username>
+      <password>sigep</password>
+    </server>
+  </servers>
+</settings>
