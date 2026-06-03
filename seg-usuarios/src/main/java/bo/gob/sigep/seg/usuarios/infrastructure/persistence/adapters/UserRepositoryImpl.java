@@ -8,6 +8,7 @@ import bo.gob.sigep.seg.usuarios.infrastructure.persistence.entities.UserEntity;
 import bo.gob.sigep.seg.usuarios.infrastructure.persistence.repositories.UserJpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -44,6 +45,18 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public boolean existsByEmail(Email email) {
         return jpaRepository.existsByEmail(email.getValue());
+    }
+
+    @Override
+    public List<User> findAll() {
+        return jpaRepository.findAll()
+                .stream()
+                .map(entity -> new User(
+                        entity.getId(),
+                        new Email(entity.getEmail()),
+                        new PersonName(entity.getName())
+                ))
+                .toList();
     }
 
 }
