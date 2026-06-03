@@ -1,5 +1,6 @@
 package bo.gob.sigep.seg.usuarios.infrastructure.persistence.config;
 
+import bo.gob.sigep.seg.usuarios.application.readmodel.UserReadRepository;
 import bo.gob.sigep.seg.usuarios.application.usecases.CreateUserUseCase;
 import bo.gob.sigep.seg.usuarios.application.usecases.GetUserByIdUseCase;
 import bo.gob.sigep.seg.usuarios.application.usecases.ListUsersUseCase;
@@ -31,12 +32,12 @@ public class UseCaseConfig {
     }
 
     @Bean
-    public GetUserByIdUseCase getUserByIdUseCase(UserRepository repository) {
+    public GetUserByIdUseCase getUserByIdUseCase(UserReadRepository repository) {
         return new GetUserByIdUseCase(repository);
     }
 
     @Bean
-    public ListUsersUseCase listUsersUseCase(UserRepository repository) {
+    public ListUsersUseCase listUsersUseCase(UserReadRepository repository) {
         return new ListUsersUseCase(repository);
     }
 
