@@ -2,6 +2,7 @@ package bo.gob.sigep.seg.usuarios.api.controller;
 
 import bo.gob.sigep.seg.usuarios.api.dto.CreateUserRequest;
 import bo.gob.sigep.seg.usuarios.api.dto.CreateUserResponse;
+import bo.gob.sigep.seg.usuarios.application.commands.CreateUserCommand;
 import bo.gob.sigep.seg.usuarios.application.usecases.CreateUserUseCase;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,11 +24,11 @@ public class UserController {
     @PostMapping
     public CreateUserResponse create(@RequestBody CreateUserRequest request) {
 
-        UUID id = createUserUseCase.execute(
+        CreateUserCommand command = new CreateUserCommand(
                 request.email(),
                 request.name()
         );
-
+        UUID id = createUserUseCase.execute(command);
         return new CreateUserResponse(id);
     }
 }

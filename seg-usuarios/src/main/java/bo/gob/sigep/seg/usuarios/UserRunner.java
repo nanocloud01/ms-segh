@@ -1,5 +1,6 @@
 package bo.gob.sigep.seg.usuarios;
 
+import bo.gob.sigep.seg.usuarios.application.commands.CreateUserCommand;
 import bo.gob.sigep.seg.usuarios.application.usecases.CreateUserUseCase;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,14 @@ public class UserRunner implements CommandLineRunner {
     public void run(String... args) {
 //        UUID id = useCase.execute("test@mail.com", "Juan");
 //        System.out.println("Usuario creado: " + id);
+
+        // con el command sería así
+//        UUID id = useCase.execute(
+//                new CreateUserCommand(
+//                        "test@mail.com",
+//                        "Juan"
+//                )
+//        );
     }
 
 }

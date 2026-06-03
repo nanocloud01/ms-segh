@@ -1,5 +1,6 @@
 package bo.gob.sigep.seg.usuarios.application.usecases;
 
+import bo.gob.sigep.seg.usuarios.application.commands.CreateUserCommand;
 import bo.gob.sigep.seg.usuarios.domain.events.DomainEventPublisher;
 import bo.gob.sigep.seg.usuarios.domain.events.UserCreatedEvent;
 import bo.gob.sigep.seg.usuarios.domain.models.User;
@@ -25,17 +26,17 @@ public class CreateUserUseCase {
         this.eventPublisher = eventPublisher;
     }
 
-    public UUID execute(String email, String name) {
+    public UUID execute(CreateUserCommand command) {
 
         // validamos email unico
-        Email userEmail = new Email(email);
+        Email userEmail = new Email(command.email());
         uniquenessChecker.ensureEmailIsUnique(userEmail);
 
         // 1. Crear entidad de dominio
         User user = new User(
                 UUID.randomUUID(),
-                new Email(email),
-                new PersonName(name)
+                userEmail,
+                new PersonName(command.name())
         );
 
         // 2. Persistir usando puerto (NO implementación)
