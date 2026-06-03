@@ -1,6 +1,8 @@
 package bo.gob.sigep.seg.usuarios.infrastructure.persistence.adapters;
 
 import bo.gob.sigep.seg.usuarios.domain.models.User;
+import bo.gob.sigep.seg.usuarios.domain.models.valueobjects.Email;
+import bo.gob.sigep.seg.usuarios.domain.models.valueobjects.PersonName;
 import bo.gob.sigep.seg.usuarios.domain.repositories.UserRepository;
 import bo.gob.sigep.seg.usuarios.infrastructure.persistence.entities.UserEntity;
 import bo.gob.sigep.seg.usuarios.infrastructure.persistence.repositories.UserJpaRepository;
@@ -22,8 +24,8 @@ public class UserRepositoryImpl implements UserRepository {
     public void save(User user) {
         UserEntity entity = new UserEntity(
                 user.getId(),
-                user.getEmail(),
-                user.getName()
+                user.getEmail().getValue(),
+                user.getName().getValue()
         );
 
         jpaRepository.save(entity);
@@ -34,9 +36,14 @@ public class UserRepositoryImpl implements UserRepository {
         return jpaRepository.findById(id)
                 .map(entity -> new User(
                         entity.getId(),
-                        entity.getEmail(),
-                        entity.getName()
+                        new Email(entity.getEmail()),
+                        new PersonName(entity.getName())
                 ));
+    }
+
+    @Override
+    public boolean existsByEmail(Email email) {
+        return jpaRepository.existsByEmail(email.getValue());
     }
 
 }

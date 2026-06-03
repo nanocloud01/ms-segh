@@ -1,25 +1,21 @@
 package bo.gob.sigep.seg.usuarios.domain.models;
 
+import bo.gob.sigep.seg.usuarios.domain.models.valueobjects.Email;
+import bo.gob.sigep.seg.usuarios.domain.models.valueobjects.PersonName;
+
 import java.util.Objects;
 import java.util.UUID;
 
 public class User {
 
     private final UUID id;
-    private final String email;
-    private final String name;
+    private final Email email;
+    private final PersonName name;
 
-    public User(UUID id, String email, String name) {
+    public User(UUID id, Email email, PersonName name) {
         if (id == null) {
-            throw new IllegalArgumentException("id no puede ser null");
+            throw new IllegalArgumentException("Id requerido");
         }
-        if (email == null || email.isBlank()) {
-            throw new IllegalArgumentException("email inválido");
-        }
-        if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("name inválido");
-        }
-
         this.id = id;
         this.email = email;
         this.name = name;
@@ -29,29 +25,45 @@ public class User {
         return id;
     }
 
-    public String getEmail() {
+    public Email getEmail() {
         return email;
     }
 
-    public String getName() {
+    public PersonName getName() {
         return name;
     }
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) {
+//            return true;
+//        }
+//        if (!(o instanceof User)) {
+//            return false;
+//        }
+//        User user = (User) o;
+//        return id.equals(user.id);
+//    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof User)) {
+        if (!(o instanceof User user)) {
             return false;
         }
-        User user = (User) o;
-        return id.equals(user.id);
+        return Objects.equals(id, user.id);
     }
+
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(id);
+//    }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hashCode(id);
     }
 
 }
