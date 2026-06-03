@@ -12,7 +12,7 @@ public class UserUniquenessChecker {
     }
 
     public void ensureEmailIsUnique(Email email) {
-        if(repository.existsByEmail(email)) {
+        if (repository.existsByEmail(email)) {
             throw new IllegalArgumentException("Email ya registrado");
         }
     }
